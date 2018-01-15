@@ -29,6 +29,7 @@ namespace PO2Sovellus
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             services.AddSingleton(Configuration);
             services.AddSingleton<ITervehtija, Tervehtija>();
         }
@@ -37,17 +38,28 @@ namespace PO2Sovellus
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ITervehtija tervehtijä)
         {
             loggerFactory.AddConsole();
+            //app.UseDefaultFiles();
+            //app.UseStaticFiles();
+            app.UseFileServer();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+            }
+            else
+            {
+                app.UseExceptionHandler(new ExceptionHandlerOptions
+                {
+                    ExceptionHandlingPath = "/virhe"
+                    //ExceptionHandler = context => context.Response.WriteAsync("Hupsista!")
+                });
+
             }
 
-            app.Run(async (context) =>
-            {
-                var message = tervehtijä.GetTervehdys();
-                await context.Response.WriteAsync(message);
-            });
+            //app.UseWelcomePage(new WelcomePageOptions { Path = "/welcome" });
+
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
