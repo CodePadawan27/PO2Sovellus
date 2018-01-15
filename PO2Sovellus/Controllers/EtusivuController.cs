@@ -9,7 +9,7 @@ namespace PO2Sovellus.Controllers
     {
         public string Index()
         {
-            return ("Terveisiä Etusivu‐ohjaimesta(EtusivuController)");
+            return ("Terveisiä Etusivu‐ohjaimesta (EtusivuController)");
         }
     }
 }
