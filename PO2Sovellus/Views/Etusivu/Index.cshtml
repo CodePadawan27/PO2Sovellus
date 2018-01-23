@@ -1,0 +1,22 @@
+﻿@using PO2Sovellus.Models
+@model ICollection<Henkilo>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Maistuuko?</title>
+</head>
+<body>
+    <h1>Henkilömäärä @Model.Count</h1>
+
+    <table>
+        <tr><th>Id</th><th>Etunimi</th><th>Sukunimi</th></tr>
+        @foreach (Henkilo h in Model)
+        {
+            <tr><td>@h.Id</td><td>@h.Etunimi</td><td>@h.Sukunimi</td></tr>
+        }
+    </table>
+
+</body>
+</html>
