@@ -1,0 +1,29 @@
+﻿@model PO2Sovellus.Entities.Ravintola
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Maistuuko?</title>
+</head>
+<body>
+    <div>
+        <h1>Uusi</h1>
+        <div>
+            @using (Html.BeginForm())
+            {
+                <div>
+                    @Html.LabelFor(m => m.Nimi)
+                    @Html.TextBoxFor(m => m.Nimi)
+                    @Html.ValidationMessageFor(m => m.Nimi)
+                    
+                </div>
+                <div>
+                    <br />
+                    <input type="submit" value="Lisää" />
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

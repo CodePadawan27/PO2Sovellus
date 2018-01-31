@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PO2Sovellus.Models;
+using PO2Sovellus.Entities;
 using PO2Sovellus.Services;
 
 namespace PO2Sovellus
@@ -35,7 +35,7 @@ namespace PO2Sovellus
             services.AddMvc();
             services.AddSingleton(Configuration);
             services.AddSingleton<ITervehtija, Tervehtija>();
-            services.AddScoped<IData<Henkilo>, InMemoryHenkiloData>();
+            services.AddScoped<IData<Ravintola>, InMemoryRavintolaData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

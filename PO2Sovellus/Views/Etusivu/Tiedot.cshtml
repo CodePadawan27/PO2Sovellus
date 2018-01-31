@@ -1,0 +1,30 @@
+﻿@using PO2Sovellus.Entities
+
+@model Ravintola
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Maistuuko?</title>
+</head>
+<body>
+
+    @if (Model == null)
+    {
+        <h3>Ravintolaa ei löydy annetulla id-arvolla</h3>
+
+    }
+    else
+    {
+        <h3>@Model.Nimi</h3>
+
+        <div>@Model.Id</div>
+        <br />
+        <a href="/Etusivu/Index">Takaisin etusivulle</a>
+
+    }
+
+</body>
+</html>

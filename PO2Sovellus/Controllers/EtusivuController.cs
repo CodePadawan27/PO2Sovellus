@@ -3,25 +3,59 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PO2Sovellus.Models;
+using PO2Sovellus.Entities;
 using PO2Sovellus.Services;
+using PO2Sovellus.ViewModels;
 
 namespace PO2Sovellus.Controllers
 {
     public class EtusivuController : Controller
     {
-        private IData<Henkilo> _henkiloData;
+        private ITervehtija _tervehtija;
+        private IData<Ravintola> _ravintolaData;
 
-        public EtusivuController(IData<Henkilo> henkiloData)
+        public EtusivuController(IData<Ravintola> ravintolaData, ITervehtija tervehtija)
         {
-            _henkiloData = henkiloData;
+            _tervehtija = tervehtija;
+            _ravintolaData = ravintolaData;
         }
 
         public IActionResult Index()
         {
-            var data = _henkiloData.HaeKaikki();
+            EtusivuViewModel data = new EtusivuViewModel { Ravintolat = _ravintolaData.HaeKaikki(), Otsikko = _tervehtija.GetTervehdys() };
 
             return View(data);
         }
+
+        public IActionResult Tiedot(int id)
+        {
+            Ravintola malli = _ravintolaData.Hae(id);
+
+            return View(malli);
+        }
+
+        [HttpGet]
+        public IActionResult Uusi()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Uusi(RavintolaEditViewModel malli)
+        {
+            if (ModelState.IsValid)
+            {
+                Ravintola uusi = new Ravintola();
+                uusi.Nimi = malli.Nimi;
+
+                uusi = _ravintolaData.Lisaa(uusi);
+
+                return RedirectToAction("Tiedot", new { id = uusi.Id });
+
+            }
+            return View();
+        }
     }
 }
+

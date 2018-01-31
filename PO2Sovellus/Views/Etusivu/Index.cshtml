@@ -1,5 +1,6 @@
-﻿@using PO2Sovellus.Models
-@model ICollection<Henkilo>
+﻿@using PO2Sovellus.Entities
+
+@model PO2Sovellus.ViewModels.EtusivuViewModel
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,13 +9,14 @@
     <title>Maistuuko?</title>
 </head>
 <body>
-    <h1>Henkilömäärä @Model.Count</h1>
+    <h1>@Model.Otsikko</h1>
 
     <table>
-        <tr><th>Id</th><th>Etunimi</th><th>Sukunimi</th></tr>
-        @foreach (Henkilo h in Model)
+        <tr><th>Id</th><th>Nimi</th></tr>
+        @foreach (Ravintola r in Model.Ravintolat)
         {
-            <tr><td>@h.Id</td><td>@h.Etunimi</td><td>@h.Sukunimi</td></tr>
+            <tr><td>@r.Id</td><td>@r.Nimi</td><td>@Html.ActionLink("Näytä", "Tiedot", new { id = r.Id })</td></tr>
+            
         }
     </table>
 
