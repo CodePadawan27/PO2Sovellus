@@ -11,11 +11,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PO2Sovellus.Entities;
 using PO2Sovellus.Services;
+using Sovellus.Data.Repositories;
+using Sovellus.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace PO2Sovellus
 {
     public class Startup
     {
+        private string _contentRootPath = "";
         public IConfiguration Configuration { get; set; }
         // Constructor for Startup
         public Startup(IHostingEnvironment env)
@@ -26,6 +30,8 @@ namespace PO2Sovellus
             builder.AddEnvironmentVariables();
             builder.Build();
             Configuration = builder.Build();
+
+            _contentRootPath = env.ContentRootPath;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -35,7 +41,15 @@ namespace PO2Sovellus
             services.AddMvc();
             services.AddSingleton(Configuration);
             services.AddSingleton<ITervehtija, Tervehtija>();
-            services.AddScoped<IData<Ravintola>, InMemoryRavintolaData>();
+            //services.AddScoped<IData<Ravintola>, InMemoryRavintolaData>();
+            services.AddScoped<IRavintolaRepository, RavintolaRepository>();
+
+            string yhteys = Configuration.GetConnectionString("SovellusDb");
+            if (yhteys.Contains("%CONTENTROOTPATH%"))
+            {
+                yhteys = yhteys.Replace("%CONTENTROOTPATH%", _contentRootPath);
+            }
+            services.AddDbContext<SovellusContext>(options => options.UseSqlServer(yhteys));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

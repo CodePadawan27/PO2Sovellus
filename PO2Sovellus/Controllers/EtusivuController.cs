@@ -3,18 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PO2Sovellus.Entities;
+using Sovellus.Model.Entities;
 using PO2Sovellus.Services;
 using PO2Sovellus.ViewModels;
+using Sovellus.Data.Repositories;
 
 namespace PO2Sovellus.Controllers
 {
     public class EtusivuController : Controller
     {
         private ITervehtija _tervehtija;
-        private IData<Ravintola> _ravintolaData;
+        private IRavintolaRepository _ravintolaData;
 
-        public EtusivuController(IData<Ravintola> ravintolaData, ITervehtija tervehtija)
+        public EtusivuController(IRavintolaRepository ravintolaData, ITervehtija tervehtija)
         {
             _tervehtija = tervehtija;
             _ravintolaData = ravintolaData;

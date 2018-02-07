@@ -1,4 +1,6 @@
-﻿@model PO2Sovellus.Entities.Ravintola
+﻿@using Sovellus.Model.Entities
+
+@model Ravintola
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -16,7 +18,7 @@
                     @Html.LabelFor(m => m.Nimi)
                     @Html.TextBoxFor(m => m.Nimi)
                     @Html.ValidationMessageFor(m => m.Nimi)
-                    
+
                 </div>
                 <div>
                     <br />
