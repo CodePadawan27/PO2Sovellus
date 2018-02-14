@@ -32,6 +32,7 @@ namespace Sovellus.Data
             MapArviointi(modelBuilder);
             MapKaupunki(modelBuilder);
             MapRavintola(modelBuilder);
+            MapRavintolaTyyppi(modelBuilder);
             MapUutinen(modelBuilder);
         }
 

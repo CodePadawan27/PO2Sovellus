@@ -23,16 +23,78 @@ namespace PO2Sovellus.Controllers
 
         public IActionResult Index()
         {
-            EtusivuViewModel data = new EtusivuViewModel { Ravintolat = _ravintolaData.HaeKaikki(), Otsikko = _tervehtija.GetTervehdys() };
+            EtusivuViewModel data = new EtusivuViewModel { Ravintolat = _ravintolaData.HaeKaikki(true), Otsikko = _tervehtija.GetTervehdys() };
 
             return View(data);
         }
 
+        //GET
+        [HttpGet]
+        public IActionResult Muuta(int id)
+        {
+            Ravintola haettava = _ravintolaData.Hae(id);
+            if(haettava != null)
+            {
+                RavintolaEditViewModel vm = new RavintolaEditViewModel
+                {
+                    Id = haettava.Id,
+                    Katuosoite = haettava.Katuosoite,
+                    KaupunkiId = haettava.KaupunkiId,
+                    KotisivuUrl = haettava.KotisivuUrl,
+                    KuvaUrl = haettava.KuvaUrl,
+                    Nimi = haettava.Nimi,
+                    Postinro = haettava.Postinro,
+                    TyyppiId = haettava.TyyppiId,
+                    RavintolaTyypit = _ravintolaData.HaeRavintolaTyypit(),
+                    Kaupungit = _ravintolaData.HaeKaupungit()
+                };
+
+                return View(vm);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Muuta(int id, RavintolaEditViewModel muutettu)
+        {
+            Ravintola haettava = _ravintolaData.Hae(id);
+            if(ModelState.IsValid)
+            {
+                haettava.Nimi = muutettu.Nimi;
+                haettava.KaupunkiId = muutettu.KaupunkiId;
+                haettava.TyyppiId = muutettu.TyyppiId;
+                haettava.Katuosoite = muutettu.Katuosoite;
+                haettava.Postinro = muutettu.Postinro;
+                haettava.KotisivuUrl = muutettu.KotisivuUrl;
+                haettava.KuvaUrl = muutettu.KuvaUrl;
+
+                _ravintolaData.Muuta(haettava);
+                return RedirectToAction("Tiedot", new { id = muutettu.Id });
+
+            }
+            else
+            {
+                muutettu.RavintolaTyypit = _ravintolaData.HaeRavintolaTyypit();
+                muutettu.Kaupungit = _ravintolaData.HaeKaupungit();
+                return View(muutettu);
+            }
+        }
+
         public IActionResult Tiedot(int id)
         {
-            Ravintola malli = _ravintolaData.Hae(id);
+            Ravintola data = _ravintolaData.Hae(id, true);
 
-            return View(malli);
+            if(data == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(data);
         }
 
         [HttpGet]

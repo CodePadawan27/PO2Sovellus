@@ -1,4 +1,5 @@
-﻿using Sovellus.Model.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Sovellus.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,49 @@ namespace Sovellus.Data.Repositories
             return _context.Ravintolat.FirstOrDefault(r => r.Id == id);
         }
 
+        public Ravintola Hae(int id, bool navigation)
+        {
+            if(navigation)
+            {
+                return _context.Ravintolat
+                    .Include(r => r.RavintolaTyyppi)
+                    .Include(r => r.Kaupunki)
+                    .FirstOrDefault(r => r.Id == id);
+            }
+            else
+            {
+                return Hae(id);
+            }
+        }
+
         public ICollection<Ravintola> HaeKaikki()
         {
             return _context.Ravintolat.ToList();
+        }
+
+        public ICollection<Ravintola> HaeKaikki(bool navigation)
+        {
+            if (navigation)
+            {
+                return _context.Ravintolat
+                    .Include(r => r.RavintolaTyyppi )
+                    .Include(r => r.Kaupunki)
+                    .ToList();
+            }
+            else
+            {
+                return HaeKaikki();
+            }
+        }
+
+        public List<Kaupunki> HaeKaupungit()
+        {
+            return _context.Kaupungit.ToList();
+        }
+
+        public List<RavintolaTyyppi> HaeRavintolaTyypit()
+        {
+            return _context.RavintolaTyypit.ToList();
         }
 
         public Ravintola Lisaa(Ravintola uusi)

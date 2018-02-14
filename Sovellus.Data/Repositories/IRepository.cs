@@ -14,7 +14,13 @@ namespace Sovellus.Data.Repositories
         bool Poista(T poistettava);
     }
 
-    public interface IRavintolaRepository : IRepository<Ravintola, int> { }
+    public interface IRavintolaRepository : IRepository<Ravintola, int>
+    {
+        List<Kaupunki> HaeKaupungit();
+        List<RavintolaTyyppi> HaeRavintolaTyypit();
+        Ravintola Hae(int id, bool navigation);
+        ICollection<Ravintola> HaeKaikki(bool navigation);
+    }
     public interface IArviointiRepository : IRepository<Arviointi, long> { }
     public interface IUutinenRepository : IRepository<Uutinen, long> { }
 }

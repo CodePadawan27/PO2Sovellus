@@ -1,0 +1,51 @@
+﻿@model PO2Sovellus.ViewModels.RavintolaEditViewModel
+
+@{ 
+    ViewBag.Title = $"Muuta {Model.Nimi}";
+}
+
+<div>
+    <h1>@ViewBag.Title</h1>
+    <div>
+        <form method="post" asp-antiforgery="true">
+            <div>
+                <label asp-for="Nimi"></label>
+                <input asp-for="Nimi" />
+                <span asp-validation-for="Nimi"></span>
+                <br />
+                <label asp-for="KaupunkiId"></label>
+                <select asp-for="KaupunkiId" asp-items="@(new SelectList(Model.Kaupungit, "Id", "Nimi"))">Kaupunki</select>
+
+                <br />
+                <label asp-for="TyyppiId"></label>
+                <select asp-for="TyyppiId" asp-items="@(new SelectList(Model.RavintolaTyypit, "Id", "Nimi"))">Ravintolatyyppi</select>
+
+                <br />
+
+                <label asp-for="Katuosoite"></label>
+                <input asp-for="Katuosoite" />
+                <span asp-validation-for="Katuosoite"></span>
+                <br />
+
+                <label asp-for="Postinro"></label>
+                <input asp-for="Postinro" />
+                <span asp-validation-for="Postinro"></span>
+                <br />
+
+                <label asp-for="KuvaUrl"></label>
+                <input asp-for="KuvaUrl" />
+                <span asp-validation-for="KuvaUrl"></span>
+                <br />
+
+                <label asp-for="KotisivuUrl"></label>
+                <input asp-for="KotisivuUrl" />
+                <span asp-validation-for="KotisivuUrl"></span>
+                <br />
+
+                <input type="submit" value="Muuta" />
+
+                <input type="hidden" asp-for="Id" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -2,6 +2,10 @@
 
 @model Ravintola
 
+@{
+    ViewBag.Title = "Tiedot" + Model.Nimi;
+}
+
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -20,10 +24,17 @@
     {
         <h3>@Model.Nimi</h3>
 
-        <div>@Model.Id</div>
+        <div>
+            Id: @Model.Id<br />
+            Kaupunki: @Model.Kaupunki.Nimi<br />
+            Tyyppi: @Model.RavintolaTyyppi.Nimi<br />
+            Katuosoite: @Model.Katuosoite<br />
+            Postinumero: @Model.Postinro<br />
+            Kotisivu: @Model.KotisivuUrl<br />
+            Kuva: @Model.KuvaUrl<br />
+        </div>
         <br />
         <a href="/Etusivu/Index">Takaisin etusivulle</a>
-
     }
 
 </body>

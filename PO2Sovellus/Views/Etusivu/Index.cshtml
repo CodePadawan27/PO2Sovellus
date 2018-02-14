@@ -1,24 +1,22 @@
-﻿@using Sovellus.Model.Entities
-
+﻿@using PO2Sovellus.ViewModels
+@using Sovellus.Model.Entities
 @model PO2Sovellus.ViewModels.EtusivuViewModel
 
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>Maistuuko?</title>
-</head>
-<body>
-    <h1>@Model.Otsikko</h1>
+@{
+    ViewBag.Title = "Maistuuko?";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-    <table>
-        <tr><th>Id</th><th>Nimi</th></tr>
-        @foreach (Ravintola r in Model.Ravintolat)
-        {
-            <tr><td>@r.Id</td><td>@r.Nimi</td><td>@Html.ActionLink("Näytä", "Tiedot", new { id = r.Id })</td></tr>
-            
-        }
-    </table>
+@section footer {
+    <div>Copyright &copy; Jarno Rostedt, @DateTime.Now.Year</div>
+}
 
-</body>
-</html>
+<h1>@ViewBag.Title</h1>
+
+    @foreach (Ravintola r in Model.Ravintolat)
+    {
+        @Html.Partial("_Yhteenveto", r)
+    }
+    <div>
+        <a asp-controller="Etusivu" asp.action="Uusi">Uusi ravintola</a>
+    </div>
