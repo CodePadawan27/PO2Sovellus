@@ -14,6 +14,7 @@ using PO2Sovellus.Services;
 using Sovellus.Data.Repositories;
 using Sovellus.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace PO2Sovellus
 {
@@ -28,7 +29,7 @@ namespace PO2Sovellus
             builder.SetBasePath(env.ContentRootPath);
             builder.AddJsonFile("appsettings.json");
             builder.AddEnvironmentVariables();
-            builder.Build();
+            //builder.Build();
             Configuration = builder.Build();
 
             _contentRootPath = env.ContentRootPath;
@@ -41,7 +42,6 @@ namespace PO2Sovellus
             services.AddMvc();
             services.AddSingleton(Configuration);
             services.AddSingleton<ITervehtija, Tervehtija>();
-            //services.AddScoped<IData<Ravintola>, InMemoryRavintolaData>();
             services.AddScoped<IRavintolaRepository, RavintolaRepository>();
 
             string yhteys = Configuration.GetConnectionString("SovellusDb");
@@ -50,6 +50,23 @@ namespace PO2Sovellus
                 yhteys = yhteys.Replace("%CONTENTROOTPATH%", _contentRootPath);
             }
             services.AddDbContext<SovellusContext>(options => options.UseSqlServer(yhteys));
+
+            services.AddIdentity<User, IdentityRole>(config =>
+            {
+                config.Cookies.ApplicationCookie.LoginPath = "/Tili/Sisaan";
+                config.Cookies.ApplicationCookie.LogoutPath = "/Tili/Ulos";
+                config.Password.RequiredLength = 3;
+                config.Password.RequireLowercase = false;
+                config.Password.RequireUppercase = false;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequireDigit = false;
+                config.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                config.Lockout.MaxFailedAccessAttempts = 10;
+                config.User.RequireUniqueEmail = false;
+            })
+                   .AddErrorDescriber<CustomIdentityErrorDescriber>()
+                   .AddEntityFrameworkStores<SovellusIdentityDbContext>();
+            services.AddDbContext<SovellusIdentityDbContext>(options => options.UseSqlServer(yhteys));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,13 +94,11 @@ namespace PO2Sovellus
 
             //app.UseWelcomePage(new WelcomePageOptions { Path = "/welcome" });
 
+            app.UseIdentity();
             app.UseMvc(ConfigureRoutes);
 
-            app.Run(context =>
-            {
-                context.Response.ContentType = "text/html: charset=utf-8";
-                return context.Response.WriteAsync("Sivua ei löytynyt.");
-            });
+            app.Run(context => context.Response.WriteAsync("Sivua ei löytynyt."));
+
         }
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)

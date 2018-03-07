@@ -16,8 +16,7 @@ namespace Sovellus.Data
         public DbSet<Ravintola> Ravintolat { get; set; }
         public DbSet<RavintolaTyyppi> RavintolaTyypit { get; set; }
         public DbSet<Uutinen> Uutiset { get; set; }
-
-        public SovellusContext(DbContextOptions options) : base(options) { }
+        public SovellusContext(DbContextOptions<SovellusContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

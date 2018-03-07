@@ -1,0 +1,12 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <span>Terve, @User.Identity.Name</span>
+    <form method="post" asp-controller="Tili" asp-action="Ulos" asp-antiforgery="true">
+        <input type="submit" value="Kirjaudu ulos" />
+    </form>
+}
+else
+{
+    <a asp-controller="Tili" asp-action="Rekisteroi">Rekisteröidy</a>
+    <a asp-controller="Tili" asp-action="Sisaan">Kirjaudu sisään</a>
+}

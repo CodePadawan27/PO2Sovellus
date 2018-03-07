@@ -7,9 +7,11 @@ using Sovellus.Model.Entities;
 using PO2Sovellus.Services;
 using PO2Sovellus.ViewModels;
 using Sovellus.Data.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PO2Sovellus.Controllers
 {
+    [Authorize]
     public class EtusivuController : Controller
     {
         private ITervehtija _tervehtija;
@@ -21,6 +23,7 @@ namespace PO2Sovellus.Controllers
             _ravintolaData = ravintolaData;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             EtusivuViewModel data = new EtusivuViewModel { Ravintolat = _ravintolaData.HaeKaikki(true), Otsikko = _tervehtija.GetTervehdys() };

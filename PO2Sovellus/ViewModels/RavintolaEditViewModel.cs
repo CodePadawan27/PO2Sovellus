@@ -1,6 +1,7 @@
 ﻿using Sovellus.Model.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
 namespace PO2Sovellus.ViewModels
 {
     public class RavintolaEditViewModel
