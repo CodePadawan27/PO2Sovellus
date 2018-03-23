@@ -76,6 +76,7 @@ namespace PO2Sovellus
             //app.UseDefaultFiles();
             //app.UseStaticFiles();
             app.UseFileServer();
+            app.UseNodeModules(env.ContentRootPath);
 
             if (env.IsDevelopment())
             {
@@ -97,7 +98,7 @@ namespace PO2Sovellus
             app.UseIdentity();
             app.UseMvc(ConfigureRoutes);
 
-            app.Run(context => context.Response.WriteAsync("Sivua ei löytynyt."));
+            //app.Run(context => context.Response.WriteAsync("Sivua ei löytynyt."));
 
         }
 

@@ -103,24 +103,38 @@ namespace PO2Sovellus.Controllers
         [HttpGet]
         public IActionResult Uusi()
         {
-            return View();
+            return View(new RavintolaEditViewModel
+            {
+                RavintolaTyypit = _ravintolaData.HaeRavintolaTyypit(),
+                Kaupungit = _ravintolaData.HaeKaupungit()
+            });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Uusi(RavintolaEditViewModel malli)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                Ravintola uusi = new Ravintola();
-                uusi.Nimi = malli.Nimi;
-
-                uusi = _ravintolaData.Lisaa(uusi);
-
-                return RedirectToAction("Tiedot", new { id = uusi.Id });
-
+                malli.RavintolaTyypit = _ravintolaData.HaeRavintolaTyypit();
+                malli.Kaupungit = _ravintolaData.HaeKaupungit();
+                return View(malli);
             }
-            return View();
+
+            var uusi = new Ravintola
+            {
+                Nimi = malli.Nimi,
+                KaupunkiId = malli.KaupunkiId,
+                TyyppiId = malli.TyyppiId,
+                Katuosoite = malli.Katuosoite,
+                Postinro = malli.Postinro,
+                KotisivuUrl = malli.KotisivuUrl,
+                KuvaUrl = malli.KuvaUrl
+            };
+
+            uusi = _ravintolaData.Lisaa(uusi);
+
+            return RedirectToAction("Tiedot", new { id = uusi.Id });
         }
     }
 }

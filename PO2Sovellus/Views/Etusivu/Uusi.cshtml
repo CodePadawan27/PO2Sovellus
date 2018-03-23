@@ -4,7 +4,7 @@
     ViewBag.Title = "Uusi";
 }
 
-@model Ravintola
+@model PO2Sovellus.ViewModels.RavintolaEditViewModel
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -14,21 +14,40 @@
 </head>
 <body>
     <div>
-        <h1>Uusi</h1>
+        <h1>@ViewBag.Title</h1>
         <div>
-            @using (Html.BeginForm())
-            {
-                <div>
-                    @Html.LabelFor(m => m.Nimi)
-                    @Html.TextBoxFor(m => m.Nimi)
-                    @Html.ValidationMessageFor(m => m.Nimi)
-
-                </div>
-                <div>
+            <form method="post" asp-antiforgery="true">
+                <div class="form-group">
+                    <input type="hidden" asp-for="Id" />
+                    <label asp-for="Nimi"></label>
+                    <input class="form-control" asp-for="Nimi" />
+                    <span asp-validation-for="Nimi"></span>
                     <br />
-                    <input type="submit" value="Lisää" />
+                    <label asp-for="KaupunkiId"></label>
+                    <select class="form-control" asp-for="KaupunkiId" asp-items="@(new SelectList(Model.Kaupungit, "Id", "Nimi"))"></select>
+                    <br />
+                    <label asp-for="TyyppiId"></label>
+                    <select class="form-control" asp-for="TyyppiId" asp-items="@(new SelectList(Model.RavintolaTyypit, "Id", "Nimi"))"></select>
+                    <br />
+                    <label asp-for="Katuosoite"></label>
+                    <input class="form-control" asp-for="Katuosoite" />
+                    <span asp-validation-for="Katuosoite"></span>
+                    <br />
+                    <label asp-for="Postinro"></label>
+                    <input class="form-control" asp-for="Postinro" />
+                    <span asp-validation-for="Postinro"></span>
+                    <br />
+                    <label asp-for="KuvaUrl"></label>
+                    <input class="form-control" asp-for="KuvaUrl" />
+                    <span asp-validation-for="KuvaUrl"></span>
+                    <br />
+                    <label asp-for="KotisivuUrl"></label>
+                    <input class="form-control" asp-for="KotisivuUrl" />
+                    <span asp-validation-for="KotisivuUrl"></span>
+                    <br />
+                    <input class="btn btn-primary" type="submit" value="Lisää" />
                 </div>
-            }
+            </form>
         </div>
     </div>
 </body>

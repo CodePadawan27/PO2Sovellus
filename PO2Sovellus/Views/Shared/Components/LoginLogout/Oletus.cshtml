@@ -2,11 +2,11 @@
 {
     <span>Terve, @User.Identity.Name</span>
     <form method="post" asp-controller="Tili" asp-action="Ulos" asp-antiforgery="true">
-        <input type="submit" value="Kirjaudu ulos" />
+        <input type="submit" value="Kirjaudu ulos" class="btn btn-default"/>
     </form>
 }
 else
 {
-    <a asp-controller="Tili" asp-action="Rekisteroi">Rekisteröidy</a>
-    <a asp-controller="Tili" asp-action="Sisaan">Kirjaudu sisään</a>
+    <a class="btn btn-default" asp-controller="Tili" asp-action="Rekisteroi">Rekisteröidy</a>
+    <a class="btn btn-default" asp-controller="Tili" asp-action="Sisaan">Kirjaudu sisään</a>
 }
