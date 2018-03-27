@@ -15,6 +15,9 @@ using Sovellus.Data.Repositories;
 using Sovellus.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using AutoMapper;
+using PO2Sovellus.ViewModels;
+using Sovellus.Model.Entities;
 
 namespace PO2Sovellus
 {
@@ -43,6 +46,7 @@ namespace PO2Sovellus
             services.AddSingleton(Configuration);
             services.AddSingleton<ITervehtija, Tervehtija>();
             services.AddScoped<IRavintolaRepository, RavintolaRepository>();
+            services.AddLogging();
 
             string yhteys = Configuration.GetConnectionString("SovellusDb");
             if (yhteys.Contains("%CONTENTROOTPATH%"))
@@ -67,6 +71,12 @@ namespace PO2Sovellus
                    .AddErrorDescriber<CustomIdentityErrorDescriber>()
                    .AddEntityFrameworkStores<SovellusIdentityDbContext>();
             services.AddDbContext<SovellusIdentityDbContext>(options => options.UseSqlServer(yhteys));
+
+            //Automapper-kirjaston käytön alustus
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<RavintolaApiViewModel, Ravintola>().ReverseMap();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +91,7 @@ namespace PO2Sovellus
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                loggerFactory.AddDebug(LogLevel.Information);
 
             }
             else
@@ -90,6 +101,7 @@ namespace PO2Sovellus
                     ExceptionHandlingPath = "/virhe"
                     //ExceptionHandler = context => context.Response.WriteAsync("Hupsista!")
                 });
+                loggerFactory.AddDebug(LogLevel.Error);
 
             }
 
