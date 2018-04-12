@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <img src="../img/wait24.gif" ng-show="IsBusy" />
+    <datalist id="kaupungit">
+        <option ng-repeat="k in Kaupungit" value="{{k}}">
+    </datalist>
+    <label for="kaupunki">Kaupunki </label>
+
+    <input type="text" id="kaupunki" name="kaupunki" list="kaupungit" ng-model="Kaupunki" />
+    <a class="btn btn-info" href="#!/ravintolat/{{Kaupunki}}" ng-show="Kaupunki"
+       role="button">Ravintolat</a>
+
+</body>
+</html>

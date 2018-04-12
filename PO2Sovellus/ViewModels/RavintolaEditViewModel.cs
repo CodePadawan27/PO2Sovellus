@@ -19,7 +19,7 @@ namespace PO2Sovellus.ViewModels
         [StringLength(5, MinimumLength = 5, ErrorMessage = "Postinumero on oltava tasan 5 merkkiä.")]
         [Display(Name = "Postinumero")]
         public string Postinro { get; set; }
-        [Display(Name = "Kuvan url‐osoite")]
+        [Display(Name = "Kuvan url-osoite")]
         public string KuvaUrl { get; set; }
         [Display(Name = "Kotisivu")]
         public string KotisivuUrl { get; set; }

@@ -11,6 +11,15 @@ namespace Sovellus.Data
     {
         public ArviointiRepository(SovellusContext context) :base(context) { }
 
+        public List<Arviointi> HaeRavintolanUusimmat(int id, int lkm = 5)
+        {
+            return _context.Arvioinnit
+            .Where(a => a.RavintolaId == id)
+            .OrderByDescending(a => a.Aika)
+            .Take(lkm)
+            .ToList();
+        }
+
         public Arviointi Hae(long id)
         {
             return _context.Arvioinnit.FirstOrDefault(a => a.Id == id);
@@ -23,8 +32,8 @@ namespace Sovellus.Data
 
         public Arviointi Lisaa(Arviointi uusi)
         {
-            long id = _context.Arvioinnit.Count() > 0 ? _context.Arvioinnit.Max(a => a.Id) + 1 : 1;
-            uusi.Id = id;
+            //long id = _context.Arvioinnit.Count() > 0 ? _context.Arvioinnit.Max(a => a.Id) + 1 : 1;
+            //uusi.Id = id;
             _context.Arvioinnit.Add(uusi);
             _context.SaveChanges();
             return uusi;

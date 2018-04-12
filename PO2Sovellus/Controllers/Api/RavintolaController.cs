@@ -23,12 +23,12 @@ namespace PO2Sovellus.Controllers.Api
             _logger = logger;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public IActionResult Get(int id)
         {
             try
             {
-                Ravintola malli = _ravintolaData.Hae(id);
+                Ravintola malli = _ravintolaData.Hae(id,true);
                 if (malli == null)
                 {
                     return BadRequest("Ravintolaa ei löytynyt.");
@@ -112,6 +112,43 @@ namespace PO2Sovellus.Controllers.Api
             {
                 _logger.LogError($"Ravintolan poisto epäonnistui: {e.Message}");
                 return BadRequest("Ravintolaa ei voitu poistaa.");
+            }
+        }
+
+        [HttpGet("~/api/kaupungit")]
+        public IActionResult GetKaupungit()
+        {
+            try
+            {
+                List<string> malli = _ravintolaData.HaeRavintolaKaupungit();
+                if (malli == null)
+                {
+                    return BadRequest("Kaupunkinimiä ei löytynyt.");
+                }
+                return Ok(malli);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Kaupunkinimien haku epäonnistui: {e.Message}");
+                return BadRequest("Kaupunkinimiä ei löytynyt.");
+            }
+        }
+        [HttpGet("~/api/{nimi}/ravintolat")]
+        public IActionResult Get(string nimi)
+        {
+            try
+            {
+                List<Ravintola> malli = _ravintolaData.HaeKaupunginRavintolat(nimi);
+                if (malli == null)
+                {
+                    return BadRequest("Ravintolaa ei löytynyt.");
+                }
+                return Ok(malli);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Ravintolan haku epäonnistui: {e.Message}");
+                return BadRequest("Ravintolaa ei löytynyt.");
             }
         }
     }

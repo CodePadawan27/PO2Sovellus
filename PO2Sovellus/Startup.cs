@@ -42,10 +42,14 @@ namespace PO2Sovellus
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(
+                options => options.SerializerSettings.ReferenceLoopHandling =
+                Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
             services.AddSingleton(Configuration);
             services.AddSingleton<ITervehtija, Tervehtija>();
             services.AddScoped<IRavintolaRepository, RavintolaRepository>();
+            services.AddScoped<IArviointiRepository, ArviointiRepository > ();
             services.AddLogging();
 
             string yhteys = Configuration.GetConnectionString("SovellusDb");
@@ -76,6 +80,7 @@ namespace PO2Sovellus
             Mapper.Initialize(config =>
             {
                 config.CreateMap<RavintolaApiViewModel, Ravintola>().ReverseMap();
+                config.CreateMap<ArviointiApiViewModel, Arviointi>().ReverseMap();
             });
         }
 

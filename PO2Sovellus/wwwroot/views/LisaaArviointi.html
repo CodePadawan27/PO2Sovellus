@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h3>{{Ravintola.nimi}}</h3>
+    <h4>{{Ravintola.kaupunki.nimi}}</h4>
+    <h3>Uusi arviointi</h3>
+    <form role="form" name="uusiArviointiForm" novalidate>
+        <div class="form-group">
+            <label class="control-label" for="Arvio">Yleisarvio</label><br />
+            <input type="radio" ng-model="Arvio" value="1" />1
+            <input type="radio" ng-model="Arvio" value="2" />2
+            <input type="radio" ng-model="Arvio" value="3" ng-checked="true" />3
+            <input type="radio" ng-model="Arvio" value="4" />4
+            <input type="radio" ng-model="Arvio" value="5" />5
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="Teksti">Teksti</label><br />
+            <textarea id="Teksti" name="Teksti" class="form-control" ng-model="Teksti"   
+                                        required ng-maxlength="1000"></textarea>
+
+            <span class="text-danger"
+                  ng-show="uusiArviointiForm.Teksti.$error.required">Pakollinen</span>
+
+            <span class="text-danger"
+                  ng-show="uusiArviointiForm.Teksti.$error.maxlength">Maksimipituus on 1000 merkkiä</span>
+        </div>
+        <input type="button" class="btn btn-default" ng-click="lisaaArviointi()"   
+                            ng-disabled="uusiArviointiForm.$invalid" value="Lisää"/>
+        <a href="#!/arviointi/{{Ravintola.id}}">Takaisin</a>
+    </form>
+
+</body>
+</html>

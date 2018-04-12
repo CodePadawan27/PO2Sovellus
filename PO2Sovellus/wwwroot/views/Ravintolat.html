@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <h3>{{Kaupunki}} - ravintolat</h3>
+    <img src="../img/wait24.gif" ng-show="IsBusy" />
+    <table class="table table-striped" ng-show="Ravintolat.length > 0">
+        <tr>
+            <th class="bold">Nimi</th>
+            <th class="bold">Osoite</th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="r in Ravintolat">
+            <td>{{r.nimi}}</td>
+            <td>{{r.katuosoite}}</td>
+            <td><a href="#!/arviointi/{{r.id}}">Arvioinnit</a></td>
+        </tr>
+    </table>
+    <p ng-show="Ravintolat.length === 0 && !IsBusy">Ei esitettäviä ravintoloita.</p>
+    <a href="#/">Takaisin</a>
+
+</body>
+</html>

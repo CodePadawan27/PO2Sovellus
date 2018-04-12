@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html ng-app="maistuuko">
+<head>
+    <meta charset="utf-8" />
+    <title>Maistuuko?</title>
+    <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="../node_modules/angular/angular.min.js"></script>
+    <script src="../node_modules/angular-route/angular-route.min.js"></script>
+    <script src="js/Module.js"></script>
+    <script src="js/Service.js"></script>
+    <script src="js/Controller.js"></script>
+
+</head>
+<body>
+
+    <div class="container body-content">
+        <header>
+            <h2>Maistuuko?</h2>
+        </header>
+        <section id="main">
+            <div ng-view="">
+            </div>
+        </section>
+        <hr />
+        <footer>
+            <p>&copy; 2018 - Jarno Rostedt.</p>
+        </footer>
+    </div>
+
+</body>
+</html>

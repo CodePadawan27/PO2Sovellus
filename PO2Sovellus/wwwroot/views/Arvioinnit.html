@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Arvioinnit</title>
+</head>
+<body>
+
+    <h3>{{Ravintola.nimi}}</h3>
+    <h4>{{Ravintola.kaupunki.nimi}}</h4>
+    <p>
+        <a class="btn btn-info" href="#!/arviointi/lisaa/{{Ravintola.id}}">
+            Lisää
+            arviointi
+        </a>
+    </p>
+    <table class="table table-striped" ng-show="Arvioinnit.length > 0">
+
+        <tr>
+            <th class="bold">Aika</th>
+            <th class="bold">Yleisarvio</th>
+            <th class="bold">Teksti</th>
+        </tr>
+        <tr ng-repeat="a in Arvioinnit"  class="{{a.arvio>=4?'success':a.arvio<= 2?'danger':''}}">
+            <td>{{a.aika | date:'dd.MM.yyyy klo HH:mm'}}</td>
+            <td>{{a.arvio}}</td>
+            <td>{{a.teksti}}</td>
+        </tr>
+    </table>
+    <p ng-show="Arvioinnit.length === 0 && !IsBusy">Ei arviointeja.</p>
+    <a href="#!/ravintolat/{{Ravintola.kaupunki.nimi}}">Takaisin</a>
+
+</body>
+</html>
